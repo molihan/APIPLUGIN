@@ -9,7 +9,8 @@ public abstract class Template implements ElementCollection, TemplateByteArray{
 	protected ImageGenerableHandler imageGenerable;
 	protected List<Element> elements = new ArrayList<>();
 	protected ImageCaster imageCaster;
-
+	protected int type;
+	
 	public ImageGenerableHandler getImageGenerable() {
 		return imageGenerable;
 	}
@@ -74,6 +75,6 @@ public abstract class Template implements ElementCollection, TemplateByteArray{
 	
 	@Override
 	public byte[] getByteArray() {
-		return imageCaster.cast(getImage());
+		return imageCaster.cast(getImage(), type);
 	}
 }
