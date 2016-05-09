@@ -46,7 +46,7 @@ public interface ImageCaster {
 	 * </p>
 	 * @return byte[] pixels data.
 	 */
-	public byte[] getByte(BufferedImage image, int direction);
+	public byte[] getByte(BufferedImage image, int start_point, int direction, boolean MSB, boolean inversed, int bpp);
 	/**
 	 * en: return a suitable image
 	 * @param image	src

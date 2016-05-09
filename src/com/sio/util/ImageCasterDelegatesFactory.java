@@ -1,23 +1,24 @@
 package com.sio.util;
 
+import com.sio.graphics.CastSettingSelector;
 import com.sio.graphics.DimensionSelector;
-import com.sio.graphics.DirectionChooser;
 import com.sio.graphics.PixelRaster;
 
 public abstract class ImageCasterDelegatesFactory {
-	protected static DirectionChooser directionChooser;
+	protected static CastSettingSelector castSettingSelector;
 	protected static DimensionSelector dimensionSelector;
 	protected static PixelRaster pixelRaster;
 	
 	public ImageCasterDelegatesFactory() {
 	}
 
-	public static DirectionChooser getDirectionChooser() {
-		return directionChooser;
+	public static CastSettingSelector getCastSettingSelector() {
+		return castSettingSelector;
 	}
 
-	public static void setDirectionChooser(DirectionChooser directionChooser) {
-		ImageCasterDelegatesFactory.directionChooser = directionChooser;
+	public static void setCastSettingSelector(
+			CastSettingSelector castSettingSelector) {
+		ImageCasterDelegatesFactory.castSettingSelector = castSettingSelector;
 	}
 
 	public static DimensionSelector getDimensionSelector() {
@@ -38,7 +39,7 @@ public abstract class ImageCasterDelegatesFactory {
 
 	protected abstract void initialPixelRaster();
 	
-	protected abstract void initialDirectionChooser();
+	protected abstract void initialCastSettingSelector();
 	
 	protected abstract void initialDimensionSelector();
 }
