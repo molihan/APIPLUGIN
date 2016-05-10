@@ -10,6 +10,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.imageio.ImageIO;
+import javax.swing.SwingUtilities;
 
 import org.junit.After;
 import org.junit.Before;
@@ -38,7 +39,8 @@ public class DefaultImageCasterTest {
 			e.printStackTrace();
 		}
 		DefaultImageCaster caster = new DefaultImageCaster();
-		caster.raster(image, 296, 128, DefaultImageCaster.BUTTONRIGHT, DefaultImageCaster.HORIZONTAL, true, false, 1);
+//		caster.raster(image, 296, 128, DefaultImageCaster.BUTTONRIGHT, DefaultImageCaster.HORIZONTAL, true, false, 1);
+		
 	}
 
 }
