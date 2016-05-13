@@ -99,6 +99,7 @@ public abstract class Terminal implements TerminalUnit, TerminalRunnable, Termin
 
 	@Override
 	public void log(String log) {
+		
 		try {
 			Writer writer = getConcreteWriter();
 			writer.write("#"+Thread.currentThread().getName() + "#, @" + System.currentTimeMillis() + " class[" + getClass().getSimpleName() + "]: " + log+"\r\n");

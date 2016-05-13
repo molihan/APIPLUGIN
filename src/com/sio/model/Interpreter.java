@@ -8,6 +8,15 @@ package com.sio.model;
  */
 public interface Interpreter {
 	public static final int TYPE_TAG = 1;
+	public static final int MAC_6 = 0;
+	public static final int MAC_1 = 5;
+	public static final int BATTARY = 6;
+	public static final int PRODUCT_CODE_H = 8;
+	public static final int PRODUCT_CODE_M = 9;
+	public static final int PRODUCT_CODE_L = 10;
+	public static final int INTVAL_TIME = 11;
+	public static final int LCDTYPE = 12;
+	public static final int SIGNAL = 13;
 	/**
 	 * 
 	 * @return Prototype, could be any.
