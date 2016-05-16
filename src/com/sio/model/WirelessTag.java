@@ -38,7 +38,10 @@ public abstract class WirelessTag {
 	public final void setBroadcastInfo(byte[] broadcastInfo) {
 		this.broadcastInfo = broadcastInfo;
 	}
-	
+	/**
+	 * Call this method for get Tag's properties. This object contains mostly useful data.
+	 * @return
+	 */
 	public final Tag getTag() {
 		return tag;
 	}

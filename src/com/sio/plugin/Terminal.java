@@ -1,13 +1,25 @@
 package com.sio.plugin;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
+import java.net.URI;
+import java.sql.Date;
+import java.util.Random;
 import java.util.Set;
 
+import javax.imageio.ImageIO;
+
+import com.sio.graphics.DefaultImageCaster;
+import com.sio.graphics.ImageCaster;
+import com.sio.graphics.Template;
 import com.sio.model.AbstractAccessPoint;
+import com.sio.model.DefaultUDPA1Pack;
+import com.sio.model.Packer;
 import com.sio.model.UtilityProvider;
+import com.sio.model.WirelessTag;
 /**
  * 
  * @author S
@@ -120,10 +132,56 @@ public abstract class Terminal implements TerminalUnit, TerminalRunnable, Termin
 		}
 		
 	}
-	
+	/**
+	 * @return provide a collection which contains all online access points.
+	 */
 	@Override
 	public final Set<AbstractAccessPoint> getDevices() {
 		return UtilityProvider.getUtility().getAccessPoints();
+	}
+	
+	@Override
+	public final void sendImage(String mac, File file) {
+		if(file.exists()){
+			BufferedImage image = null;
+			try {
+				image = ImageIO.read(file);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			for(AbstractAccessPoint device : getDevices()){
+				WirelessTag tag = device.getTag(mac);
+				ImageCaster caster = new DefaultImageCaster();
+				caster.cast(image, tag.getTag().model());
+				break;
+			}
+		} else {
+			System.out.println("send image has been called. file not exist[i]");
+		}
+		
+	}
+	/**
+	 * send an image throw URI address. This image will be download from network.
+	 * @param mac MAC address from tag
+	 * @param URI HTTP address.
+	 */
+	@Override
+	public final void sendImage(String mac, URI uri) {
+		// TODO Auto-generated method stub
+		
+	}
+	/**
+	 * Directly send a template to a tag.
+	 * @param mac MAC address from tag
+	 * @param tempalate Template object.
+	 */
+	@Override
+	public final void sendTemplate(String mac, Template template) {
+		byte[] bytes = template.getByteArray();
+		Packer packer = new DefaultUDPA1Pack();
+		packer.setHead(mac, new Random().nextLong(), new Date(System.currentTimeMillis()));
+		packer.setData(Packer.ORDER_SEND_BW, bytes);
+		
 	}
 	
 	public boolean equals(Object obj){

@@ -13,4 +13,8 @@ public interface TagCollection {
 	public Collection<WirelessTag> getTags();
 	
 	public boolean contains(WirelessTag tag);
+	
+	public boolean contains(String mac);
+	
+	public boolean removeTag(String mac);
 }

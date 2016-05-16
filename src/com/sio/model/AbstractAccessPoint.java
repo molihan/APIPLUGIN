@@ -38,6 +38,15 @@ public abstract class AbstractAccessPoint implements TagCollection, APCommandabl
 	}
 
 	@Override
+	public boolean removeTag(String mac) {
+		if(tags.containsKey(mac)){
+			tags.remove(mac);
+			return true;
+		}
+		return false;
+	}
+	
+	@Override
 	public WirelessTag getTag(String mac) {
 		return tags.get(mac);
 	}
@@ -52,6 +61,14 @@ public abstract class AbstractAccessPoint implements TagCollection, APCommandabl
 		return tags.containsValue(tag);
 	}
 
+	@Override
+	public boolean contains(String mac) {
+		if(tags.containsKey(mac)){
+			return true;
+		}
+		return false;
+	}
+	
 	@Override
 	public boolean equals(Object obj){
 		if(obj != null && obj instanceof AbstractAccessPoint){

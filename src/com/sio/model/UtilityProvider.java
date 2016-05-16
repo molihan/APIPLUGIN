@@ -6,7 +6,7 @@ package com.sio.model;
  *
  */
 public final class UtilityProvider {
-	private DeviceUtility utility;
+	private static DeviceUtility utility;
 	
 	private static final UtilityProvider instance = new UtilityProvider();
 	private UtilityProvider(){
@@ -14,7 +14,7 @@ public final class UtilityProvider {
 	}
 	
 	public static final DeviceUtility getUtility(){
-		return getInstance().utility;
+		return UtilityProvider.utility;
 	}
 	
 	public static UtilityProvider getInstance(){
