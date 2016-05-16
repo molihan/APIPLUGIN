@@ -1,6 +1,5 @@
 package com.sio.model;
 
-import java.util.HashMap;
 
 public abstract class AbstractStreamProvider implements StreamProvider {
 	public static StreamProvider streamProvider;
@@ -16,7 +15,7 @@ public abstract class AbstractStreamProvider implements StreamProvider {
 
 	@Override
 	public void setDefaultStream(StreamProvider streamProvider) {
-		this.streamProvider = streamProvider;
+		AbstractStreamProvider.streamProvider = streamProvider;
 	}
 
 	@Override

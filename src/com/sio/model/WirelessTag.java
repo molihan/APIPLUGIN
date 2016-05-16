@@ -3,6 +3,7 @@
  */
 package com.sio.model;
 
+
 /**
  * @author S.Sio
  *
@@ -14,6 +15,7 @@ public abstract class WirelessTag {
 	 */
 	protected String mac;
 	protected byte[] broadcastInfo;
+	protected Tag tag;
 	/**
 	 * This is an abstract function that must rewrite by other sub-classes.
 	 * And this function decides to use which method to send.
@@ -35,6 +37,14 @@ public abstract class WirelessTag {
 	
 	public final void setBroadcastInfo(byte[] broadcastInfo) {
 		this.broadcastInfo = broadcastInfo;
+	}
+	
+	public final Tag getTag() {
+		return tag;
+	}
+
+	public final void setTag(Tag tag) {
+		this.tag = tag;
 	}
 	
 	@Override

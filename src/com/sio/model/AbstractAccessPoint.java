@@ -53,12 +53,17 @@ public abstract class AbstractAccessPoint implements TagCollection, APCommandabl
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(Object obj){
 		if(obj != null && obj instanceof AbstractAccessPoint){
 			if(ip != null && ip.equalsIgnoreCase(((AbstractAccessPoint) obj).getIp())){
 				return true;
 			}
 		}
 		return false;
+	}
+	
+	@Override
+	public int hashCode() {
+		return ip.hashCode();
 	}
 }
