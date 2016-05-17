@@ -1,5 +1,6 @@
 package com.sio.model;
 
+import java.nio.ByteBuffer;
 import java.util.Date;
 
 public abstract class Packer {
@@ -79,6 +80,24 @@ public abstract class Packer {
 	public byte[] getHead(){
 		return head;
 	}
+	/**
+	 * Get packed data, this function automatically called merge function.
+	 * @return	packed data.
+	 */
+	public byte[] getPack(){
+		merge();
+		int total_length = head.length + data.length;
+		for(int i=0; i<3; i++){
+			int l = 2-i;
+			head[TOTAL_BYTE_COUNT_H + i] = (byte)((total_length>>(8*l))&0xFF);
+		}
+		ByteBuffer buf = ByteBuffer.allocate(total_length);
+		buf.put(head);
+		buf.put(data);
+		return buf.array();
+	}
+	
+	public void merge(){ }
 }
 	
 	

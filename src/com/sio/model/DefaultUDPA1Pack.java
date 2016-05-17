@@ -25,6 +25,7 @@ public class DefaultUDPA1Pack extends Packer {
 			}
 		}
 //		block set time
+		if(time != null)
 		{
 			Calendar calendar = Calendar.getInstance();
 			calendar.setTime(time);
@@ -115,27 +116,30 @@ public class DefaultUDPA1Pack extends Packer {
 	/**
 	 * Merge
 	 */
-	private void merge(){
+	@Override
+	public void merge(){
 //		fix position (add head.length)
 		{
 			for(int x=COMMAND_FIRST_FLAG; x<head.length;x++){
 				int position = 0;
+				byte flag = head[x];
+				if(flag == _EMPTY_){
+					break;
+				}
 				for(int y=0; y<ADDRESS_LENGTH; y++){
 					x++;
 					position |= head[x];
 					if(y<ADDRESS_LENGTH-1)	position <<= 8;
 				}
 				position += head.length;
-				for(int y=x-2; y<=x; y++){
-					int i = ADDRESS_LENGTH-y-1;
+				for(int y=x-2,z=2; y<=x; y++){
+					int i = z--;
 					head[y] = (byte)((position >> (8*i))&0xFF); 
+					
 				}
 			}
 		}
 	}
 	
-	public byte[] getByte(){
-		merge();
-		return null;
-	}
+	
 }

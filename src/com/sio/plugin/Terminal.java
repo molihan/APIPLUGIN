@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
 import java.net.URI;
-import java.sql.Date;
 import java.util.Random;
 import java.util.Set;
 
@@ -150,10 +149,17 @@ public abstract class Terminal implements TerminalUnit, TerminalRunnable, Termin
 				e.printStackTrace();
 			}
 			for(AbstractAccessPoint device : getDevices()){
-				WirelessTag tag = device.getTag(mac);
-				ImageCaster caster = new DefaultImageCaster();
-				caster.cast(image, tag.getTag().model());
-				break;
+				if(device.contains(mac)){
+					WirelessTag tag = device.getTag(mac);
+					ImageCaster caster = new DefaultImageCaster();
+					byte[] data = caster.cast(image, tag.getTag().model());
+					Packer packer = new DefaultUDPA1Pack();
+					packer.setHead(mac, new Random().nextLong(), new java.util.Date(System.currentTimeMillis()));
+					packer.setData(DefaultUDPA1Pack.ORDER_SEND_BW, data);
+					byte[] pack = packer.getPack();
+					tag.write(pack);
+					break;
+				}
 			}
 		} else {
 			System.out.println("send image has been called. file not exist[i]");
@@ -163,7 +169,7 @@ public abstract class Terminal implements TerminalUnit, TerminalRunnable, Termin
 	/**
 	 * send an image throw URI address. This image will be download from network.
 	 * @param mac MAC address from tag
-	 * @param URI HTTP address.
+	 * @param uri HTTP address.
 	 */
 	@Override
 	public final void sendImage(String mac, URI uri) {
@@ -173,14 +179,23 @@ public abstract class Terminal implements TerminalUnit, TerminalRunnable, Termin
 	/**
 	 * Directly send a template to a tag.
 	 * @param mac MAC address from tag
-	 * @param tempalate Template object.
+	 * @param template Template object.
 	 */
 	@Override
 	public final void sendTemplate(String mac, Template template) {
-		byte[] bytes = template.getByteArray();
-		Packer packer = new DefaultUDPA1Pack();
-		packer.setHead(mac, new Random().nextLong(), new Date(System.currentTimeMillis()));
-		packer.setData(Packer.ORDER_SEND_BW, bytes);
+		for(AbstractAccessPoint device : getDevices()){
+			if(device.contains(mac)){
+				WirelessTag tag = device.getTag(mac);		//get abstract applicant level tag;
+				byte[] data = template.getByteArray();		//get pixels data
+				Packer packer = new DefaultUDPA1Pack();		//packing data
+				packer.setHead(mac, new Random().nextLong(), null);	//set packing head
+				packer.setData(DefaultUDPA1Pack.ORDER_SEND_BW, data);		//set packing data and use
+				byte[] pack = packer.getPack();				//get packed data
+				tag.write(pack);							//write out by abstracted tag.
+				break;
+			}
+		}
+		
 		
 	}
 	

@@ -4,6 +4,9 @@ import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 
 import com.sio.util.ImageCasterDelegatesFactory;
 
@@ -23,7 +26,7 @@ public class DefaultImageCaster implements ImageCaster{
 				castSettingSelector.selectMSB(modal_type), 
 				castSettingSelector.selectInversed(modal_type), 
 				castSettingSelector.selectBitPerPixel(modal_type));
-		
+		dst = compressRLE(dst);
 		return dst;
 	}
 	
@@ -43,15 +46,20 @@ public class DefaultImageCaster implements ImageCaster{
 	public static final int TOPRIGHT = 1;
 	public static final int BUTTONLEFT = 2;
 	public static final int BUTTONRIGHT = 3;
+
 	@Override
 	public byte[] getByte(BufferedImage image, int start_point, int direction, boolean MSB, boolean inversed, int bpp) {
 //		return pixelRaster.getPixels(image, direction);
+		
 		AffineTransform transform = null;
 		AffineTransformOp at = null;
 		BufferedImage dst = null;
 		int width = image.getWidth();
 		int height = image.getHeight();
-		int imageType = BufferedImage.TYPE_INT_BGR;
+		int imageType = BufferedImage.TYPE_BYTE_BINARY;
+		BufferedImage copyImage = new BufferedImage(width, height, imageType);
+		Graphics2D g2d = (Graphics2D) copyImage.getGraphics();
+		g2d.drawImage(image, 0, 0, null);
 		double radius = 0;
 		byte[] pixels = null;
 		int pixels_index_roller = 0;
@@ -87,7 +95,7 @@ public class DefaultImageCaster implements ImageCaster{
 		//Rotate
 		{
 			at = new AffineTransformOp(transform, AffineTransformOp.TYPE_BILINEAR);
-			dst = at.filter(image, dst);
+			dst = at.filter(copyImage, dst);
 		}
 		/*
 		 * After rotate image.
@@ -176,5 +184,95 @@ public class DefaultImageCaster implements ImageCaster{
 		return src;
 	}
 	
-	
+	public static byte[] compressRLE(byte[] data) {
+
+		try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
+				DataOutputStream dos = new DataOutputStream(baos);) {
+			for (int x = 0; x < data.length;) {
+				int y = 0, scnt = 0, ucnt = 0;
+
+				for (y = x; y + 1 < data.length && data[y] == data[y + 1]; y++) {
+
+					scnt++;
+				}
+
+				if (scnt > 0) {
+					byte[] meta = null;
+					byte vol = data[y];
+					scnt++;
+
+					if (scnt >= 127) {
+						meta = new byte[scnt / 127 + 1];
+						for (int i = 0; i < scnt / 127; i++) {
+							meta[i] = (byte) 0xff;
+						}
+						meta[scnt / 127] = (byte) (0x80 | (scnt % 127));
+					} else if (scnt < 127) {
+						meta = new byte[1];
+						meta[0] = (byte) (0x80 | scnt);
+					}
+					dos.write(meta);
+					dos.write(vol);
+					y++;
+				}
+
+				for (; y + 1 < data.length && data[y] != data[y + 1]
+						&& ucnt < 127; y++) {
+					ucnt++;
+
+				}
+
+				if (ucnt > 0) {
+					byte[] vols = null;
+					byte[] meta = null;
+					int roller = 0;
+
+					vols = new byte[ucnt];
+					if (y == 7) {
+						System.out.println(y);
+						System.out.println(ucnt);
+						System.out.println(y - ucnt);
+					}
+					for (int i = y - ucnt; i < y; i++) {
+						vols[roller++] = data[i];
+					}
+
+					if (ucnt % 127 == 0 || ucnt > 127) {
+						/*
+						 * meta = new byte[ucnt/127+1]; for(int i=0;
+						 * i<ucnt/127;i++){ meta[i] = 0x7f; } meta[ucnt/127] =
+						 * (byte) (0x7f&(ucnt%127));
+						 */
+						meta = new byte[1];
+						meta[0] = 0x7f;
+
+					} else if (ucnt < 127) {
+						meta = new byte[1];
+						meta[0] = (byte) (0x7f & ucnt);
+					}
+					if (meta != null) {
+						dos.write(meta);
+					}
+					if (vols != null) {
+						dos.write(vols);
+					}
+
+				}
+
+				if (y == data.length - 1) {
+					dos.write(0x01);
+					dos.write(data[y]);
+					y++;
+				}
+
+				x = y;
+			}
+
+			return baos.toByteArray();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 }
