@@ -48,7 +48,7 @@ public abstract class WirelessTag {
 	}
 	/**
 	 * Call this method for get Tag's properties. This object contains mostly useful data.
-	 * @return
+	 * @return Tag object
 	 */
 	public final Tag getTag() {
 		return tag;

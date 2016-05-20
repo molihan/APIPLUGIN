@@ -7,7 +7,7 @@ package com.sio.graphics;
 public interface CastSettingSelector {
 	/**
 	 * en:Help to choose a direction.
-	 * <br/>
+	 * <br>
 	 * chn:指定一个枚举值用来刷新。
 	 * 
 	 * @param modal_type tag's modal(type)

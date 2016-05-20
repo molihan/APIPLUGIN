@@ -4,11 +4,11 @@ import java.awt.image.BufferedImage;
 
 public interface ImageCaster {
 	/**
-	 * For these enum, it indicates the directions your function sampling from buffered image.<br/>
+	 * For these enum, it indicates the directions your function sampling from buffered image.<br>
 	 * <p>
-	 * 	S-----------W<br/>
-	 * 	|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<br/>
-	 * 	|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<br/>
+	 * 	S-----------W<br>
+	 * 	|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<br>
+	 * 	|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<br>
 	 * 	H-----------E
 	 * </p>
 	 */
@@ -25,7 +25,7 @@ public interface ImageCaster {
 	 * <p>
 	 * en： Bring a BufferedImage object to bytes. More detail please go and see sub-classes.
 	 * 		Commonly this function will go thru getProperImage() and getByte().
-	 * <br/>
+	 * <br>
 	 * chn：将一个BufferedImage转化为byte[]对象， 具体实现见子类。通常情况下这个函数简化了使用，它会调用getProperImage()和getByte().
 	 * </p>
 	 * @param image	BufferedImage对象包含一个可转换图像。
@@ -37,11 +37,15 @@ public interface ImageCaster {
 	 * en： Convert buffered image to byte array. Detail please see sub-classes.
 	 * chn:可以让图片取模为像素点，具体实现见子类。
 	 * @param image	src
-	 * @param direction	ENUM of ImageCaster figure out the directions.<br/>
+	 * @param start_point which point should start from.
+	 * @param direction	ENUM of ImageCaster figure out the directions.<br>
+	 * @param MSB if true, then first bit is first pixel.
+	 * @param inversed if true, the last pixel will comes first.
+	 * @param bpp bit per pixel.
 	 * <p>
-	 *	S-----------W<br/>
-	 * 	|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<br/>
-	 * 	|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<br/>
+	 *	S-----------W<br>
+	 * 	|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<br>
+	 * 	|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<br>
 	 * 	H-----------E
 	 * </p>
 	 * @return byte[] pixels data.

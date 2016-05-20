@@ -20,9 +20,9 @@ public interface Interpreter {
 	/**
 	 * 
 	 * @return Prototype, could be any.
-	 * 			Check the type (by call getType()) to ensure.<br />
+	 * 			Check the type (by call getType()) to ensure.<br>
 	 * {
-	 * <b>ENUM -> TYPE_TAG = [1] is instance of InterpretedTag.</b>   
+	 * <b>ENUM: TYPE_TAG = [1] is instance of InterpretedTag.</b>   
 	 * }
 	 */
 	public Object getPrototype();
@@ -31,6 +31,8 @@ public interface Interpreter {
 	public int getType();
 	/**
 	 * This function should be call every time new data comes. And let the interpreter to solve the data convert to entity object.
+	 * @param ip from socket IP.
+	 * @param port from socket PORT.
 	 * @param data raw data
 	 */
 	public void update(String ip, int port,byte[] data);
