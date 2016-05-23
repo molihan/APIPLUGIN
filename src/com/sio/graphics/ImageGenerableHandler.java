@@ -12,7 +12,7 @@ public abstract class ImageGenerableHandler {
 
 	protected ImageGenerableHandler successor;
 
-	protected ElementCombiner elementCombiner;
+	protected static ElementCombiner elementCombiner;
 	
 	/**
 	 * EN: Get an BufferedImage when you called.
@@ -38,6 +38,6 @@ public abstract class ImageGenerableHandler {
 	}
 
 	public void setElementCombiner(ElementCombiner elementCombiner) {
-		this.elementCombiner = elementCombiner;
+		ImageGenerableHandler.elementCombiner = elementCombiner;
 	}
 }

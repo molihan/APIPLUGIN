@@ -1,5 +1,6 @@
 package com.sio.util;
 
+import com.sio.graphics.DefaultImageCaster;
 import com.sio.graphics.PixelMatrixTemplate;
 import com.sio.graphics.SegmentTemplate;
 import com.sio.graphics.Template;
@@ -22,8 +23,11 @@ public class DefaultTemplateFactory implements TemplateFactory{
 		Template template = null;
 		if(TemplateFactory.PIXEL_TEMPLATE == type){
 			template = new PixelMatrixTemplate();
+			template.setImageCaster(new DefaultImageCaster());
+			template.setImageGenerable(DefaultImageGenerableFactory.instance.createImageGenerable());
 		} else if (TemplateFactory.SEGMENT_TEMPLATE == type){
 			template = new SegmentTemplate();
+			template.setImageGenerable(DefaultImageGenerableFactory.instance.createImageGenerable());
 		}
 		return template;
 	}

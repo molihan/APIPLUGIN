@@ -12,15 +12,19 @@ import com.sio.graphics.ImageGenerableHandler;
  */
 public class DefaultImageGenerableFactory implements ImageGenerableFactory{
 
-	public ImageGenerableHandler imageGenerable;
+	public static ImageGenerableHandler imageGenerable;
 	
 	public static final DefaultImageGenerableFactory instance = new DefaultImageGenerableFactory();
 	
 	private DefaultImageGenerableFactory() {
+//		respond chain
 		ImageGenerableHandler pixelImageGenerableHandler = new DefaultPixelTemplateImageGenerable();
 		ImageGenerableHandler segmentImageGenerableHandler = new DefaultSegmentTemplateImageGenerable();
 		pixelImageGenerableHandler.setImageGenerableHandler(segmentImageGenerableHandler);
 		imageGenerable = pixelImageGenerableHandler;
+//		set combiner
+		imageGenerable.setElementCombiner(DefaultElementCombinerFactory.instance.createCombiner());
+	
 	}
 
 	@Override

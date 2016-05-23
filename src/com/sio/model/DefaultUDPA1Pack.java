@@ -24,49 +24,7 @@ public class DefaultUDPA1Pack extends Packer {
 				this.head[x] = mac_bytes[i++];
 			}
 		}
-//		block set time
-		if(time != null)
-		{
-			Calendar calendar = Calendar.getInstance();
-			calendar.setTime(time);
-			int year = calendar.get(Calendar.YEAR);
-			int month = calendar.get(Calendar.MONTH);
-			int dof = calendar.get(Calendar.DAY_OF_WEEK);
-			int day = calendar.get(Calendar.DAY_OF_MONTH);
-			int hour = calendar.get(Calendar.HOUR_OF_DAY);
-			int minute = calendar.get(Calendar.MINUTE);
-			int second = calendar.get(Calendar.SECOND);
-			this.head[YEAR] = (byte) (year % 1000 % 100);
-			this.head[MONTH] = (byte) (month+1&0xff);
-			switch(dof){
-			case Calendar.MONDAY:
-				this.head[DOF] = (byte)1;
-				break;
-			case Calendar.TUESDAY:
-				this.head[DOF] = (byte)2;
-				break;
-			case Calendar.WEDNESDAY:
-				this.head[DOF] = (byte)3;
-				break;
-			case Calendar.THURSDAY:
-				this.head[DOF] = (byte)4;
-				break;
-			case Calendar.FRIDAY:
-				this.head[DOF] = (byte)5;
-				break;
-			case Calendar.SATURDAY:
-				this.head[DOF] = (byte)6;
-				break;
-			case Calendar.SUNDAY:
-				this.head[DOF] = (byte)7;
-				break;
-			}
-			this.head[DAY] = (byte) day;
-			this.head[HOUR] = (byte)hour;
-			this.head[MINUTE] = (byte)minute;
-			this.head[SECOND] = (byte)second;
-			
-		}
+		setTimer(time);
 		
 //		initialize command flag
 		{
@@ -141,5 +99,50 @@ public class DefaultUDPA1Pack extends Packer {
 		}
 	}
 	
+	public void setTimer(Date time){
+//		block set time
+		if(time != null)
+		{
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(time);
+			int year = calendar.get(Calendar.YEAR);
+			int month = calendar.get(Calendar.MONTH);
+			int dof = calendar.get(Calendar.DAY_OF_WEEK);
+			int day = calendar.get(Calendar.DAY_OF_MONTH);
+			int hour = calendar.get(Calendar.HOUR_OF_DAY);
+			int minute = calendar.get(Calendar.MINUTE);
+			int second = calendar.get(Calendar.SECOND);
+			this.head[YEAR] = (byte) (year % 1000 % 100);
+			this.head[MONTH] = (byte) (month+1&0xff);
+			switch(dof){
+			case Calendar.MONDAY:
+				this.head[DOF] = (byte)1;
+				break;
+			case Calendar.TUESDAY:
+				this.head[DOF] = (byte)2;
+				break;
+			case Calendar.WEDNESDAY:
+				this.head[DOF] = (byte)3;
+				break;
+			case Calendar.THURSDAY:
+				this.head[DOF] = (byte)4;
+				break;
+			case Calendar.FRIDAY:
+				this.head[DOF] = (byte)5;
+				break;
+			case Calendar.SATURDAY:
+				this.head[DOF] = (byte)6;
+				break;
+			case Calendar.SUNDAY:
+				this.head[DOF] = (byte)7;
+				break;
+			}
+			this.head[DAY] = (byte) day;
+			this.head[HOUR] = (byte)hour;
+			this.head[MINUTE] = (byte)minute;
+			this.head[SECOND] = (byte)second;
+			
+		}
+	}
 	
 }

@@ -1,7 +1,11 @@
 package com.sio.graphics;
 
 import java.awt.Font;
-
+/**
+ * This class represented to a static line of text. See more at: com.sio.graphics.Template.class
+ * @author S
+ *
+ */
 public class StaticTextElement extends AbstractElementDrawable {
 	private String content;
 	private Font font;
@@ -56,5 +60,5 @@ public class StaticTextElement extends AbstractElementDrawable {
 		return 0;
 	}
 
-
+ 
 }

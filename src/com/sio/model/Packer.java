@@ -40,8 +40,8 @@ public abstract class Packer {
 	public static final byte ORDER_SEND_R = 0x01;
 	public static final byte ORDER_SEND_G = 0x02;
 	public static final byte ORDER_LED = 0x10;
-	public static final byte ORDER_SLEEP = 0x20;
-	public static final byte ORDER_BUTTON = 0x30;
+	public static final byte ORDER_BROADCAST = 0x20;
+	public static final byte ORDER_KEY = 0x30;
 	public static final byte ORDER_RESET = 0x40;
 	
 	protected byte[] head;
@@ -52,6 +52,9 @@ public abstract class Packer {
 	
 	public static final byte[] from16radixToBytes(String s) {
 		byte[] b = new byte[s.length() / 2];
+		if(b.length == 0){
+			b = new byte[1];
+		}
 		int startpoint = 0;
 		int endpoint = 2;
 		for (int x = 0; x < b.length; x++) {
@@ -98,6 +101,12 @@ public abstract class Packer {
 	}
 	
 	public void merge(){ }
+	
+	/**
+	 * Set-up a trigger timer. The whole data pack will be innovated at the given moment.
+	 * @param time the specific moment.
+	 */
+	public void setTimer(Date time){};
 }
 	
 	
