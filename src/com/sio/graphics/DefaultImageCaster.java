@@ -7,7 +7,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-
+import java.nio.ByteBuffer;
 import com.sio.util.ImageCasterDelegatesFactory;
 
 public class DefaultImageCaster implements ImageCaster{
@@ -27,6 +27,8 @@ public class DefaultImageCaster implements ImageCaster{
 				castSettingSelector.selectInversed(modal_type), 
 				castSettingSelector.selectBitPerPixel(modal_type));
 		dst = compressRLE(dst);
+//		System.out.println("压缩后数据： " + dst.length);
+//		System.out.println(Packer.fromBytesTo16radix(dst));
 		return dst;
 	}
 	
@@ -158,6 +160,8 @@ public class DefaultImageCaster implements ImageCaster{
 		if(inversed){
 			inverse(pixels);
 		}
+//		System.out.println("一共制作了： " + pixels.length + " 个字节。");
+//		System.out.println(Packer.fromBytesTo16radix(pixels));
 		return pixels;
 	}
 
@@ -185,14 +189,13 @@ public class DefaultImageCaster implements ImageCaster{
 	}
 	
 	public static byte[] compressRLE(byte[] data) {
-
 		try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
 				DataOutputStream dos = new DataOutputStream(baos);) {
+			byte[] dst = null;
 			for (int x = 0; x < data.length;) {
 				int y = 0, scnt = 0, ucnt = 0;
 
 				for (y = x; y + 1 < data.length && data[y] == data[y + 1]; y++) {
-
 					scnt++;
 				}
 
@@ -228,28 +231,19 @@ public class DefaultImageCaster implements ImageCaster{
 					int roller = 0;
 
 					vols = new byte[ucnt];
-					if (y == 7) {
-						System.out.println(y);
-						System.out.println(ucnt);
-						System.out.println(y - ucnt);
-					}
+					
 					for (int i = y - ucnt; i < y; i++) {
 						vols[roller++] = data[i];
 					}
 
 					if (ucnt % 127 == 0 || ucnt > 127) {
-						/*
-						 * meta = new byte[ucnt/127+1]; for(int i=0;
-						 * i<ucnt/127;i++){ meta[i] = 0x7f; } meta[ucnt/127] =
-						 * (byte) (0x7f&(ucnt%127));
-						 */
 						meta = new byte[1];
 						meta[0] = 0x7f;
-
 					} else if (ucnt < 127) {
 						meta = new byte[1];
 						meta[0] = (byte) (0x7f & ucnt);
 					}
+					
 					if (meta != null) {
 						dos.write(meta);
 					}
@@ -267,8 +261,33 @@ public class DefaultImageCaster implements ImageCaster{
 
 				x = y;
 			}
-
-			return baos.toByteArray();
+			dst = baos.toByteArray();
+			
+			if(dst.length >= data.length){
+				int start = 0;
+				int pack_count = 0;
+				if(data.length % 127 == 0){
+					pack_count = data.length / 127;
+				} else {
+					pack_count = data.length / 127;
+					pack_count ++;
+				}
+				ByteBuffer buf = ByteBuffer.allocate(data.length + pack_count);
+				for(int y=0; y<pack_count; y++){
+					if(y<pack_count - 1){
+						buf.put((byte) 0x7F);
+						buf.put(data, start, 127);
+						start +=127;
+					} else {
+						buf.put((byte) ((data.length % 127) & 0x7F));
+						buf.put(data,start,(data.length % 127));
+						start +=127;
+					}
+				}
+				dst = buf.array();
+			}
+			
+			return dst;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

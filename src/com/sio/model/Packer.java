@@ -97,6 +97,7 @@ public abstract class Packer {
 		ByteBuffer buf = ByteBuffer.allocate(total_length);
 		buf.put(head);
 		buf.put(data);
+//		System.out.println("加头 加协议后大小：" + total_length);
 		return buf.array();
 	}
 	
