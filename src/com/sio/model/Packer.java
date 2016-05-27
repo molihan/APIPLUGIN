@@ -58,8 +58,7 @@ public abstract class Packer {
 		int startpoint = 0;
 		int endpoint = 2;
 		for (int x = 0; x < b.length; x++) {
-			b[x] = (byte) Integer.parseInt(s.substring(startpoint, endpoint),
-					16);
+			b[x] = (byte) Integer.parseInt(s.substring(startpoint, endpoint),16);
 			startpoint = endpoint;
 			endpoint += 2;
 		}
