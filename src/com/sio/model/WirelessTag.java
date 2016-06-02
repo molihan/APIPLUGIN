@@ -23,7 +23,9 @@ public abstract class WirelessTag {
 	protected Tag tag;
 	protected boolean online;
 	protected String communication;
-	protected long update_serial; 
+	protected long update_serial;
+	protected long last_feedback;
+
 	/**
 	 * This is an abstract function that must rewrite by other sub-classes.
 	 * And this function decides to use which method to send.
@@ -72,6 +74,14 @@ public abstract class WirelessTag {
 	 */
 	public final String getCommuncation(){
 		return communication;
+	}
+	
+	public final long getLast_feedback() {
+		return last_feedback;
+	}
+
+	public final void setLast_feedback(long last_feedback) {
+		this.last_feedback = last_feedback;
 	}
 	
 	@Override

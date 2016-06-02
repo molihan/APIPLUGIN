@@ -14,18 +14,7 @@ public interface Tag {
 	public static final int MODEL_213_WAREHOUSE_OE = 6;
 	public static final int MODEL_209_WAREHOUSE_WF = 7;
 	public static final int MODEL_209_WAREHOUSE_OE = 8;
-	/*
-	private String mac;
-	private int type;
-	private int signal;
-	private String ip;
-	private int batt;
-	private long code_1;
-	private int code_2;
-	private long lastRespondTime;
-	private int err;
-	private int onOff;
-	 */
+ 
 	public String mac();
 	public int model();
 	public int signal();
