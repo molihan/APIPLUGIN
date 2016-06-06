@@ -8,6 +8,7 @@ public abstract class AbstractAccessPoint implements TagCollection, APCommandabl
 
 	protected String ip;
 	protected int port;
+	protected boolean isAlive;
 
 	protected Map<String, WirelessTag> tags = new HashMap<>();
 
@@ -67,6 +68,14 @@ public abstract class AbstractAccessPoint implements TagCollection, APCommandabl
 			return true;
 		}
 		return false;
+	}
+	
+	public final boolean isAlive() {
+		return isAlive;
+	}
+
+	public final void setAlive(boolean isAlive) {
+		this.isAlive = isAlive;
 	}
 	
 	@Override

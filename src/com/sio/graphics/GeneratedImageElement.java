@@ -1,6 +1,6 @@
 package com.sio.graphics;
 
-public class GeneratedImageElement extends AbstractElementDrawable {
+public class GeneratedImageElement extends AbstractElementDrawable{
 	
 	private int type;
 	private GenerableImage generableImage;
@@ -10,6 +10,11 @@ public class GeneratedImageElement extends AbstractElementDrawable {
 	public GeneratedImageElement(Template template, int type) {
 		super(template);
 		this.type = type;
+		if(type == GenerableImage.BARCODE){
+			generableImage = new Barcode2Image();
+		} else if (type == GenerableImage.QRCODE){
+			generableImage = new QRCode2Image();
+		}
 	}
 
 	public GenerableImage getGenerableImage() {
@@ -54,13 +59,11 @@ public class GeneratedImageElement extends AbstractElementDrawable {
 
 	@Override
 	public int getWidth() {
-		return 0;
+		return width;
 	}
 
 	@Override
 	public int getHeight() {
-		return 0;
+		return height;
 	}
-
-
 }

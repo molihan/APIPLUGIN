@@ -10,12 +10,12 @@ public class ImageElement extends AbstractElementDrawable {
 
 	@Override
 	public int getWidth() {
-		return 0;
+		return width;
 	}
 
 	@Override
 	public int getHeight() {
-		return 0;
+		return height;
 	}
 
 	public String getUri() {

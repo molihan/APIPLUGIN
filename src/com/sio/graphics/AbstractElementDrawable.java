@@ -39,6 +39,14 @@ public abstract class AbstractElementDrawable implements Element{
 	public abstract int getWidth();
 	public abstract int getHeight();
 	
+	public final void setWidth(int width){
+		this.width = width;
+	}
+	
+	public final void setHeight(int height){
+		this.height = height;
+	}
+	
 	@Override
 	public Template getTemplate() {
 		return template;

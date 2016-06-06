@@ -84,6 +84,14 @@ public abstract class WirelessTag {
 		this.last_feedback = last_feedback;
 	}
 	
+	public final boolean online(){
+		return online;
+	}
+	
+	public final void online(boolean online){
+		this.online = online;
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if(obj != null && obj instanceof WirelessTag){
