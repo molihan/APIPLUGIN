@@ -25,17 +25,16 @@ public class Barcode2Image extends GenerableImage {
 		codeWidth = Math.max(codeWidth, width);
 
 		BarcodeFormat format = BarcodeFormat.EAN_13;
-		if (src.length() != 13) {
+		if (src.length() != 13 && src.length() <= 44) {
 			format = BarcodeFormat.CODE_128;
 		}
-		Hashtable<EncodeHintType, Object> hints = new Hashtable<EncodeHintType, Object>();
+		Hashtable<EncodeHintType, Object> hints = new Hashtable<>();
 //		指定纠错等级
 		hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);
 //		去边框
 		hints.put(EncodeHintType.MARGIN, 0);
 		try {
-			BitMatrix bitMatrix = new MultiFormatWriter().encode(src,
-					format, codeWidth, height, hints);
+			BitMatrix bitMatrix = new MultiFormatWriter().encode(src, format, codeWidth, height, hints);
 			image = bitMatrixToImage(bitMatrix);
 		} catch (Exception e) {
 			e.printStackTrace();

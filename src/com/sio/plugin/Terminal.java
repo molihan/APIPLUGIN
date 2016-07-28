@@ -17,8 +17,8 @@ import com.sio.graphics.Template;
 import com.sio.model.AbstractAccessPoint;
 import com.sio.model.DefaultUDPA1Pack;
 import com.sio.model.Packer;
-import com.sio.model.UtilityProvider;
 import com.sio.model.WirelessTag;
+import com.sio.object.APIServiceManager;
 /**
  * 
  * @author S
@@ -136,7 +136,7 @@ public abstract class Terminal implements TerminalUnit, TerminalRunnable, Termin
 	 */
 	@Override
 	public final Set<AbstractAccessPoint> getDevices() {
-		return UtilityProvider.getUtility().getAccessPoints();
+		return APIServiceManager.getDevices().getAccessPoints();
 	}
 	
 	@Override
