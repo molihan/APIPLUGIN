@@ -103,8 +103,8 @@ public class DefaultImageCaster implements ImageCaster{
 		 * After rotate image.
 		 * Getter image properties.
 		 */
-		int fixed_width = width<=dst.getWidth()?width:dst.getWidth();
-		int fixed_height = height<=dst.getHeight()?height:dst.getHeight();
+		int fixed_width = dst.getWidth();
+		int fixed_height = dst.getHeight();
 		matrix_arries = dst.getRaster().getPixels(dst.getMinX(),dst.getMinY(), fixed_width, fixed_height, matrix_arries);
 		//Calculate result array
 		if (matrix_arries.length % 8 != 0) {

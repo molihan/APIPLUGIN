@@ -3,6 +3,7 @@ package com.sio.model.net;
 import java.io.IOException;
 
 public interface UDPTransceiver {
+	
 	/**
 	 * Write data thru UDP protocol. Target at given ip and port.
 	 * @param ip	target'IP
@@ -11,6 +12,7 @@ public interface UDPTransceiver {
 	 * @throws IOException	may occurs if the channel is not initial yet.
 	 */
 	public void write(String ip, int port, byte[] data) throws IOException;
+	
 	/**
 	 * Broadcast data thru UDP protocol. Target at given port.
 	 * @param port	target's port
@@ -25,12 +27,21 @@ public interface UDPTransceiver {
 	 * @return The process thread this function made.
 	 */
 	public Thread startUDPEvent(boolean synchronize);
+	
 	/**
 	 * Stop the UDP auto-write and auto-read event
 	 */
 	public void stopUDPEvent();
 	
+	/**
+	 * The local socket IP.
+	 * @return local IP.
+	 */
 	public String getLocalIP();
 	
+	/**
+	 * The local socket port.
+	 * @return local port.
+	 */
 	public int getLocalPort();
 }
